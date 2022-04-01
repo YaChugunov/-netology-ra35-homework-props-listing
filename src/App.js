@@ -4,27 +4,53 @@ import './css/main.css';
 // Импортируем данные из json-файла и передаем в компонент.
 import jsonData from './data/etsy.json';
 
+const titleLength = 50;
+const currencies = [
+  { txt: 'USD', sign: '$' },
+  { txt: 'EUR', sign: '€' },
+];
+
+function ItemTitle(str, len) {
+  return str
+    ? str.length > len
+      ? str.slice(0, len) + ' …'
+      : str
+    : '-- NO TITLE --';
+}
+
+function ItemPrice(str, curr, price) {
+  let strCurr = curr.find((o) => o.txt === str);
+  return strCurr
+    ? `${strCurr.sign}${Number(price).toFixed(2)}`
+    : `${Number(price).toFixed(2)}` + ' GBP';
+}
+
+function ItemLevel(qty) {
+  return qty > 20 ? 'high' : qty > 10 ? 'medium' : 'low';
+}
+
 function Listing(props) {
-  const titleLength = 50;
-  const curr = [
-    { txt: 'USD', sign: '$' },
-    { txt: 'EUR', sign: '€' },
-  ];
+  // Обрабатываем описание элемента
+  const itemTitle = ItemTitle(props.title, titleLength);
+  // Обрабатываем валюту элемента
+  const itemPrice = ItemPrice(props.currency_code, currencies, props.price);
+  // console.log(itemPrice);
 
   return (
     <div class="item">
       <div class="item-image">
         <a href={props.url}>
-          <img src={props.MainImage} />
+          <img src={props.MainImage && props.MainImage.url_570xN} />
         </a>
       </div>
       <div class="item-details">
-        <p class="item-title">{props.title}</p>
-        <p class="item-price">
-          {props.currency_code}
-          {props.price}
-        </p>
-        <p class="item-quantity level-medium">{props.quantity}</p>
+        <p class="item-title">{itemTitle}</p>
+        <p class="item-price">{itemPrice}</p>
+        <p
+          class={`item-quantity level-${
+            props.quantity && ItemLevel(props.quantity)
+          }`}
+        >{`${props.quantity} left`}</p>
       </div>
     </div>
   );
