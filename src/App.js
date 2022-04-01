@@ -5,9 +5,11 @@ import './css/main.css';
 import jsonData from './data/etsy.json';
 
 function Listing(props) {
-  console.log(props.MainImage);
-  const MainImage = props.MainImage;
-  //const url = MainImage.map((elem) => (elem.url))
+  const titleLength = 50;
+  const curr = [
+    { txt: 'USD', sign: '$' },
+    { txt: 'EUR', sign: '€' },
+  ];
 
   return (
     <div class="item">
