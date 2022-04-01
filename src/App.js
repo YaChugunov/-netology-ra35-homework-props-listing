@@ -4,12 +4,14 @@ import './css/main.css';
 // Импортируем данные из json-файла и передаем в компонент.
 import jsonData from './data/etsy.json';
 
+// Константы для обработки названия и валюты элемента
 const titleLength = 50;
 const currencies = [
   { txt: 'USD', sign: '$' },
   { txt: 'EUR', sign: '€' },
 ];
 
+// Обрезаем название элемента (не более 50 символов)
 function ItemTitle(str, len) {
   return str
     ? str.length > len
@@ -26,17 +28,20 @@ function ItemPrice(str, curr, price) {
     : `${Number(price).toFixed(2)}` + ' GBP';
 }
 
-// Определяем класс отображения количества элементов
+// Формирем css-класс отображения количества элементов
 function ItemLevel(qty) {
   return qty > 20 ? 'high' : qty > 10 ? 'medium' : 'low';
 }
 
+// --- --- --- --- --- --- --- --- --- ---
+//
+// ОСНОВНОЙ КОМПОНЕНТ
+//
 function Listing(props) {
-  // Обрабатываем описание элемента
+  // Вызываем функцию обработки названия элемента
   const itemTitle = ItemTitle(props.title, titleLength);
-  // Обрабатываем валюту элемента
+  // Вызываем функцию форматирования цены элемента
   const itemPrice = ItemPrice(props.currency_code, currencies, props.price);
-  // console.log(itemPrice);
 
   return (
     <div class="item">
@@ -57,6 +62,7 @@ function Listing(props) {
     </div>
   );
 }
+// --- --- --- --- --- --- --- --- --- ---
 
 export default function App() {
   // Формирование массива компонентов
