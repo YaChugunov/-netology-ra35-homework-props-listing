@@ -18,6 +18,7 @@ function ItemTitle(str, len) {
     : '-- NO TITLE --';
 }
 
+// Форматируем цену элемента в зависимости от валюты
 function ItemPrice(str, curr, price) {
   let strCurr = curr.find((o) => o.txt === str);
   return strCurr
@@ -25,6 +26,7 @@ function ItemPrice(str, curr, price) {
     : `${Number(price).toFixed(2)}` + ' GBP';
 }
 
+// Определяем класс отображения количества элементов
 function ItemLevel(qty) {
   return qty > 20 ? 'high' : qty > 10 ? 'medium' : 'low';
 }
@@ -58,17 +60,20 @@ function Listing(props) {
 
 export default function App() {
   // Формирование массива компонентов
-  const items = jsonData.map((item) => (
-    <Listing
-      key={item.listing_id}
-      listing_id={item.listing_id}
-      url={item.url}
-      MainImage={item.MainImage}
-      title={item.title}
-      currency_code={item.currency_code}
-      price={item.price}
-      quantity={item.quantity}
-    />
-  ));
+  const items = jsonData.map((item) =>
+    item.title && item.price ? (
+      <Listing
+        key={item.listing_id}
+        listing_id={item.listing_id}
+        url={item.url}
+        MainImage={item.MainImage}
+        title={item.title}
+        currency_code={item.currency_code}
+        price={item.price}
+        quantity={item.quantity}
+      />
+    ) : null
+  );
+
   return <div className="item-list">{items}</div>;
 }
