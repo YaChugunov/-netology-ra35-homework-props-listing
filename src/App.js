@@ -44,5 +44,5 @@ export default function App() {
       quantity={item.quantity}
     />
   ));
-  return <div class="item-list">{items}</div>;
+  return <div className="item-list">{items}</div>;
 }
